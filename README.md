@@ -1,7 +1,7 @@
 # Directory Organizer
 This script be able you to organize your "Download" directory.
 
-![demo](https://github.com/cr0wg4n/directory-organizer/img/demo_gif.gif)
+![demo](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_gif.gif)
 
 ## Requiriments
 - Python3 or Higher
