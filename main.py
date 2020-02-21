@@ -25,7 +25,7 @@ BINARIES_DIR_NAME = "binaries"
 IMAGES_DIR_NAME = "images"
 
 
-base_structure = {
+BASE_STRUCTURE = {
     SOUND_DIR_NAME: ["mp3","wav","wma","m4a","aac","aa"],
     VIDEO_DIR_NAME: ["mkv","mp4","mpg","mov","webm","avi","flv","mpeg","ogg","wmv"],
     DOCS_DIR_NAME: {
@@ -40,7 +40,7 @@ base_structure = {
 }
 
 #always with "/" to end
-path = "D:/Descargas/" 
+PATH = "D:/Descargas/" # add your path here!
 
 # path = "./demo/"
 
@@ -93,35 +93,17 @@ def is_normal_directory(base_path, structure):
             break
     return res
 
-# def on_created(event):
-#     if not event.is_directory:
-#         print(f"file creado {event.src_path}")
-#     else: 
-#         print(f"directorio creado {event.src_path}")
-
-# def on_deleted(event):
-#     print(f"eliminado {event.src_path}")
-
-# def on_modified(event):
-#     if "/sound" not in event.src_path:
-#         print(f"modificado {event.src_path}")
-#     else:
-#         print("modificado en sound")
-
-# def on_moved(event):
-#     print(f"movido {event.src_path} a {event.dest_path}")
-
 def on_any_event(event):
     if event.event_type == 'created':
         pass
     if event.event_type == 'deleted':
         pass
     if event.event_type == 'modified':
-        if is_normal_directory(event.src_path, base_structure):
+        if is_normal_directory(event.src_path, BASE_STRUCTURE):
             file_path = event.src_path
             file_name = get_file_name(file_path)
             extension = get_extension_file(file_path)
-            dest_path = get_match_extension(base_path=path, extension=extension, structure=base_structure)
+            dest_path = get_match_extension(base_path=PATH, extension=extension, structure=BASE_STRUCTURE)
             try:
                 shutil.move(file_path,dest_path)
                 logging.info(f'File <{file_name}> MOVED: {file_path} to {dest_path}')
@@ -131,21 +113,17 @@ def on_any_event(event):
         pass
 
 def main():
-    logging.basicConfig(level = logging.INFO,filename=path+"files.log")
+    logging.basicConfig(level = logging.INFO,filename=PATH+"files.log")
     logging.info(f'Init at {datetime.now()}')
     event_handler = PatternMatchingEventHandler(patterns="*", ignore_patterns=[""], ignore_directories=True, case_sensitive=True)
-    # event_handler.on_created = on_created
-    # event_handler.on_deleted = on_deleted
-    # event_handler.on_modified = on_modified
-    # event_handler.on_moved = on_moved
     event_handler.on_any_event = on_any_event
     observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
+    observer.schedule(event_handler, PATH, recursive=True)
     observer.start()
     try:
         while True:
             time.sleep(2)
-            build_structure(base_path=path, structure=base_structure)
+            build_structure(base_path=PATH, structure=BASE_STRUCTURE)
     except KeyboardInterrupt:
         observer.stop()
         observer.join()
