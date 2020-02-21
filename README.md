@@ -1,16 +1,16 @@
 # Directory Organizer
 This script be able you to organize your "Download" directory.
 
-# Requiriments
+## Requiriments
 - Python3 or Higher
 - pip3
 
-# Install 
+## Install 
 ```
 pip install -r requirements.txt
 ```
 
-# Deploy (Linux)
+## Deploy (Linux)
 with cron:
 ```
 sudo crontab -e 
@@ -21,7 +21,7 @@ add at crontab file in the last line:
 ```
 after that, reboot your system, and see!
 
-# Deploy (Windows)
+## Deploy (Windows)
 In the glorious Windows is more complex, therefore you need this tutorial:
-[Tutorial in Medium](https://www.google.com)
+[Tutorial in Medium](https://medium.com/@cr0wg4n)
 
