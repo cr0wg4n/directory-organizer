@@ -39,10 +39,12 @@ BASE_STRUCTURE = {
     COMPRESSED_DIR_NAME: ["rar","zip","gz","tar"]
 }
 
-#always with "/" to end
-PATH = "D:/Descargas/" # add your path here!
+#Always with "/" to end
+PATH = "D:/Descargas/" # Add your path here!
 
-# path = "./demo/"
+DIRECTORIES_WITH_EXCEPTION = []
+IN_DOWNLOAD_EXTENSION = "part"
+TRASH_FILES = ["pdf"] # If in your Download folder you see trash files with 0 bytes size 
 
 def get_match_extension(base_path, extension , structure):
     res = None
@@ -64,9 +66,22 @@ def get_file_name(path_file):
         else:
             extension = extension + path_file[i]
             i=i-1
-    return ''.join(reversed(extension)).lower()
+    return ''.join(reversed(extension))
 
-def get_extension_file(path_file):
+def get_file_path(path_file):
+    i=len(path_file)-1
+    file_path = ""
+    flag = False
+    while i>=0:
+        if flag == False:
+            if path_file[i]=="\\" or path_file[i]=="/":
+                flag = True
+        else: 
+            file_path = path_file[i] + file_path
+        i = i - 1
+    return file_path+"/"
+
+def get_file_extension(path_file):
     i=len(path_file)-1
     extension = ""
     while i>=0:
@@ -93,29 +108,62 @@ def is_normal_directory(base_path, structure):
             break
     return res
 
+def is_in_exception_directories(directories, file_path):
+    res = False
+    for directory in directories:
+        if directory in file_path:
+            res = True
+            break
+    return res
+
+def remove_duplicates(collection):
+    res = []
+    for i in collection:
+        if i not in res:
+            res.append(i)
+    return res
+
+def move_file(file_path, structure, exception_directories):
+    if is_normal_directory(file_path, structure) and not is_in_exception_directories(exception_directories, file_path):
+        file_name = get_file_name(file_path)
+        extension = get_file_extension(file_path)
+        dest_path = get_match_extension(base_path=PATH, extension=extension, structure=structure)
+        try:
+            shutil.move(file_path,dest_path)
+            logging.info(f'File <{file_name}> MOVED: {file_path} to {dest_path}')
+            if(extension in TRASH_FILES):
+                time.sleep(0.1)
+                os.remove(file_path)
+        except Exception as error:
+            pass
+
 def on_any_event(event):
+    global DIRECTORIES_WITH_EXCEPTION
     if event.event_type == 'created':
+        print('created')
         pass
     if event.event_type == 'deleted':
+        print(event.src_path)
+        print('deleted')
+        pass
+    if event.event_type == 'moved':
+        print('moved')
         pass
     if event.event_type == 'modified':
-        if is_normal_directory(event.src_path, BASE_STRUCTURE):
-            file_path = event.src_path
-            file_name = get_file_name(file_path)
-            extension = get_extension_file(file_path)
-            dest_path = get_match_extension(base_path=PATH, extension=extension, structure=BASE_STRUCTURE)
-            try:
-                shutil.move(file_path,dest_path)
-                logging.info(f'File <{file_name}> MOVED: {file_path} to {dest_path}')
-            except Exception as error:
-                pass
-    if event.event_type == 'moved':
-        pass
-
+        file_path = event.src_path
+        only_path = get_file_path(file_path)
+        if only_path == PATH:
+            if not event.is_directory and get_file_extension(file_path)!=IN_DOWNLOAD_EXTENSION:
+                move_file(file_path, BASE_STRUCTURE, DIRECTORIES_WITH_EXCEPTION)
+            elif is_normal_directory(file_path, BASE_STRUCTURE):
+                DIRECTORIES_WITH_EXCEPTION.append(file_path)
+                logging.info(f'Directory <{file_path}> with exception')
+                DIRECTORIES_WITH_EXCEPTION = remove_duplicates(DIRECTORIES_WITH_EXCEPTION)
+    
 def main():
     logging.basicConfig(level = logging.INFO,filename=PATH+"files.log")
     logging.info(f'Init at {datetime.now()}')
-    event_handler = PatternMatchingEventHandler(patterns="*", ignore_patterns=[""], ignore_directories=True, case_sensitive=True)
+    event_handler = PatternMatchingEventHandler(patterns="*", ignore_patterns=[""], ignore_directories=False, case_sensitive=True)
     event_handler.on_any_event = on_any_event
     observer = Observer()
     observer.schedule(event_handler, PATH, recursive=True)
@@ -124,6 +172,7 @@ def main():
         while True:
             time.sleep(2)
             build_structure(base_path=PATH, structure=BASE_STRUCTURE)
+
     except KeyboardInterrupt:
         observer.stop()
         observer.join()

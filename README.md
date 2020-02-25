@@ -12,6 +12,12 @@ This script be able you to organize your "Download" directory.
 pip install -r requirements.txt
 ```
 
+In main.py file, you must modify the PATH variable, with your Download directory path, for example:
+
+```
+PATH = "D:/Descargas/"
+```
+
 ## Deploy (Linux)
 with cron:
 ```
@@ -20,10 +26,11 @@ sudo crontab -e
 add at crontab file in the last line:
 ```
 @reboot sleep 30 & python3 /REPO_PATH/main.py
+sudo service cron  reload
+sudo service cron restart
 ```
 after that, reboot your system, and see!
 
 ## Deploy (Windows)
 In the glorious Windows is more complex, therefore you need this tutorial:
 [Tutorial in Medium](https://medium.com/@cr0wg4n)
-
