@@ -140,14 +140,10 @@ def move_file(file_path, structure, exception_directories):
 def on_any_event(event):
     global DIRECTORIES_WITH_EXCEPTION
     if event.event_type == 'created':
-        print('created')
         pass
     if event.event_type == 'deleted':
-        print(event.src_path)
-        print('deleted')
         pass
     if event.event_type == 'moved':
-        print('moved')
         pass
     if event.event_type == 'modified':
         file_path = event.src_path

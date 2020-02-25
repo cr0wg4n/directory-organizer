@@ -2,6 +2,7 @@
 This script be able you to organize your "Download" directory.
 
 ![demo](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_gif.gif)
+![demo2](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_pdfs.gif)
 
 ## Requiriments
 - Python3 or Higher
@@ -17,6 +18,11 @@ In main.py file, you must modify the PATH variable, with your Download directory
 ```
 PATH = "D:/Descargas/"
 ```
+Is important keep "/" if your path is more large, for example:
+```
+C:/example/example/example/example/
+```
+and "/" at the end.
 
 ## Deploy (Linux)
 with cron:
