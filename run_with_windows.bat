@@ -1,0 +1,1 @@
+"D:\Escritorio\Code\python\Automatizando_tareas_aburridas\directorios\.venv\Scripts\pythonw.exe" "D:\Escritorio\Code\python\Automatizando_tareas_aburridas\directorios\main.py"

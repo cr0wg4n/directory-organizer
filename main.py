@@ -165,6 +165,7 @@ def main():
     observer.schedule(event_handler, PATH, recursive=True)
     observer.start()
     try:
+        print("The Script works!")
         while True:
             time.sleep(2)
             build_structure(base_path=PATH, structure=BASE_STRUCTURE)
