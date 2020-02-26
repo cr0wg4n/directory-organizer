@@ -44,7 +44,6 @@ PATH = "D:/Descargas/" # Add your path here!
 
 DIRECTORIES_WITH_EXCEPTION = []
 IN_DOWNLOAD_EXTENSION = "part"
-TRASH_FILES = ["pdf"] # If in your Download folder you see trash files with 0 bytes size 
 
 def get_match_extension(base_path, extension , structure):
     res = None
@@ -131,9 +130,8 @@ def move_file(file_path, structure, exception_directories):
         try:
             shutil.move(file_path,dest_path)
             logging.info(f'File <{file_name}> MOVED: {file_path} to {dest_path}')
-            if(extension in TRASH_FILES):
-                time.sleep(0.1)
-                os.remove(file_path)
+            time.sleep(0.1)
+            os.remove(file_path)
         except Exception as error:
             pass
 
