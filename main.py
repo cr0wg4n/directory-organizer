@@ -40,7 +40,11 @@ BASE_STRUCTURE = {
 }
 
 #Always with "/" to end
-PATH = "/home/cr0wg4n/Descargas/" # Add your path here!
+#Windows path
+PATH = "D:/Descargas/" # Add your path here!
+#Linux path
+# PATH = "/home/cr0wg4n/Descargas/" # Add your path here!
+
 
 DIRECTORIES_WITH_EXCEPTION = []
 IN_DOWNLOAD_EXTENSION = "part"
