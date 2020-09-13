@@ -26,12 +26,15 @@ and `/` at the end.
 
 ## Deploy (Linux)
 with cron:
-```
+```bash
 sudo crontab -e 
 ```
-add at crontab file in the last line:
+add at crontab file at the last line:
 ```
-@reboot sleep 30 & python3 /REPO_PATH/main.py
+@reboot sleep 30 & python3 /REPO_ABSOLUTE_PATH/main.py
+```
+reload the cron service:
+```
 sudo service cron  reload
 sudo service cron restart
 ```
