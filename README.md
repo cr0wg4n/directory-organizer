@@ -29,7 +29,7 @@ with cron:
 ```bash
 sudo crontab -e 
 ```
-add at crontab file at the last line:
+in the cron file add this line at the end:
 ```
 @reboot sleep 30 & python3 /REPO_ABSOLUTE_PATH/main.py
 ```
