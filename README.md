@@ -4,6 +4,8 @@ This script let you organize your "Download" directory or another that you want 
 ![demo](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_gif.gif)
 ![demo2](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_pdfs.gif)
 
+Link to project description in [Medium](https://medium.com/@cr0wg4n/automatizando-tareas-aburridas-con-python-organizador-de-directorios-7ed9b6a4dfe)
+
 ## Requiriments
 - Python3 or Higher
 - pip3
