@@ -1,12 +1,13 @@
 import time
 import os 
-from watchdog.observers import Observer
-from watchdog.events import PatternMatchingEventHandler
 import json 
 import shutil
 import logging
 from datetime import datetime
-
+from watchdog.observers import Observer
+from watchdog.events import PatternMatchingEventHandler
+from dotenv import load_dotenv
+load_dotenv()
 SOUND_DIR_NAME = "sound"
 
 VIDEO_DIR_NAME = "video"
@@ -41,7 +42,7 @@ BASE_STRUCTURE = {
 
 #Always with "/" to end
 #Windows path
-PATH = "D:/Descargas/" # Add your path here!
+PATH = os.getenv("PATH_LOCATION") # Add your path here!
 #Linux path
 # PATH = "/home/cr0wg4n/Descargas/" # Add your path here!
 
@@ -157,7 +158,8 @@ def on_any_event(event):
                 DIRECTORIES_WITH_EXCEPTION.append(file_path)
                 logging.info('Directory <{}> with exception'.format(file_path))
                 DIRECTORIES_WITH_EXCEPTION = remove_duplicates(DIRECTORIES_WITH_EXCEPTION)
-    
+
+
 def main():
     logging.basicConfig(level = logging.INFO,filename=PATH+"files.log")
     logging.info('Init at {}'.format(datetime.now()))
