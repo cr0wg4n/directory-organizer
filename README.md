@@ -14,11 +14,11 @@ Link to project description in [Medium](https://medium.com/@cr0wg4n/automatizand
 ```
 pip install -r requirements.txt
 ```
+Rename .env.example to .env, you must modify the PATH_LOCATION , with your Download directory path, for example:
 
-In main.py file, you must modify the PATH variable, with your Download directory path, for example:
 
 ```
-PATH = "D:/Descargas/"
+PATH_LOCATION = D:/Descargas/
 ```
 Is important keep `/` if your path is more large, for example:
 ```
