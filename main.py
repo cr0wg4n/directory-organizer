@@ -7,6 +7,7 @@ from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 from dotenv import load_dotenv
+from auxiliary import modify_valid_path
 load_dotenv()
 SOUND_DIR_NAME = "sound"
 
@@ -42,13 +43,19 @@ BASE_STRUCTURE = {
 
 #Always with "/" to end
 #Windows path
-PATH = os.getenv("PATH_LOCATION") # Add your path here!
+PATH = modify_valid_path(path=os.getenv("PATH_LOCATION")) # Add your path here!
 #Linux path
 # PATH = "/home/cr0wg4n/Descargas/" # Add your path here!
 
 
 DIRECTORIES_WITH_EXCEPTION = []
 IN_DOWNLOAD_EXTENSION = "part"
+
+
+
+
+
+        
 
 def get_match_extension(base_path, extension , structure):
     res = None
