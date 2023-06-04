@@ -1,29 +1,23 @@
 import time
 import os 
+from os import path 
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
-import json 
 import shutil
 import logging
 from datetime import datetime
+from config import LISTEN_PATH
 
 SOUND_DIR_NAME = "sound"
-
 VIDEO_DIR_NAME = "video"
-
 DOCS_DIR_NAME = "docs"
 PRESENTATION_DIR_NAME = "presentations"
 SPREADSHEETS_DIR_NAME = "spreadsheets"
 DOCUMENTS_DIR_NAME = "documents"
-
 COMPRESSED_DIR_NAME = "compress"
-
 SYSTEMS_DIR_NAME = "isos"
-
 BINARIES_DIR_NAME = "binaries"
-
 IMAGES_DIR_NAME = "images"
-
 
 BASE_STRUCTURE = {
     SOUND_DIR_NAME: ["mp3","wav","wma","m4a","aac","aa"],
@@ -33,21 +27,16 @@ BASE_STRUCTURE = {
         SPREADSHEETS_DIR_NAME: ["xls","csv","dif","ods","xlm","ots"],
         DOCUMENTS_DIR_NAME: ["txt","docx","pdf","odt","doc"] 
     },
-    IMAGES_DIR_NAME: ["png","jpeg","jpg","gif","tif","tiff","bmp","eps","psd","ai","raw","svg"],
+    IMAGES_DIR_NAME: ["png","jpeg","jpg","gif","tif","tiff","bmp","eps","psd","ai","raw","svg","webp"],
     BINARIES_DIR_NAME: ["exe","bin"],
     SYSTEMS_DIR_NAME: ["iso","img"],
     COMPRESSED_DIR_NAME: ["rar","zip","gz","tar"]
 }
 
-#Always with "/" to end
-#Windows path
-PATH = "D:/Descargas/" # Add your path here!
-#Linux path
-# PATH = "/home/cr0wg4n/Descargas/" # Add your path here!
-
+PATH = LISTEN_PATH
 
 DIRECTORIES_WITH_EXCEPTION = []
-IN_DOWNLOAD_EXTENSION = "part"
+ON_DOWNLOAD_EXTENSION = "part"
 
 def get_match_extension(base_path, extension , structure):
     res = None
@@ -70,6 +59,10 @@ def get_file_name(path_file):
             extension = extension + path_file[i]
             i=i-1
     return ''.join(reversed(extension))
+
+
+def get_file_name2(path_file):
+    return path.basename(path_file)
 
 def get_file_path(path_file):
     i=len(path_file)-1
@@ -129,6 +122,7 @@ def remove_duplicates(collection):
 def move_file(file_path, structure, exception_directories):
     if is_normal_directory(file_path, structure) and not is_in_exception_directories(exception_directories, file_path):
         file_name = get_file_name(file_path)
+        print('flag', file_path, file_name, get_file_name2(file_path))
         extension = get_file_extension(file_path)
         dest_path = get_match_extension(base_path=PATH, extension=extension, structure=structure)
         try:
@@ -151,7 +145,7 @@ def on_any_event(event):
         file_path = event.src_path
         only_path = get_file_path(file_path)
         if only_path == PATH:
-            if not event.is_directory and get_file_extension(file_path)!=IN_DOWNLOAD_EXTENSION:
+            if not event.is_directory and get_file_extension(file_path)!=ON_DOWNLOAD_EXTENSION:
                 move_file(file_path, BASE_STRUCTURE, DIRECTORIES_WITH_EXCEPTION)
             elif is_normal_directory(file_path, BASE_STRUCTURE):
                 DIRECTORIES_WITH_EXCEPTION.append(file_path)
@@ -166,12 +160,12 @@ def main():
     observer = Observer()
     observer.schedule(event_handler, PATH, recursive=True)
     observer.start()
+
     try:
-        print("The Script works!")
+        print("Starting...")
         while True:
             time.sleep(2)
             build_structure(base_path=PATH, structure=BASE_STRUCTURE)
-
     except KeyboardInterrupt:
         observer.stop()
         observer.join()
