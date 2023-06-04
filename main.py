@@ -71,7 +71,13 @@ def remove_duplicates(collection):
     return res
 
 def move_file(file_path, structure, exception_directories):
-    if is_normal_directory(file_path, structure) and not is_in_exception_directories(exception_directories, file_path):
+    if is_normal_directory(
+        file_path, 
+        structure
+    ) and not is_in_exception_directories(
+        exception_directories, 
+        file_path
+    ):
         file_name = get_file_name(file_path)
         extension = get_file_extension(file_path)
         dest_path = get_match_extension(base_path=PATH, extension=extension, structure=structure)
@@ -110,7 +116,12 @@ def main():
     logging.basicConfig(level = logging.INFO, filename = logger_path)
     logging.info('Init at {}'.format(datetime.now()))
 
-    event_handler = PatternMatchingEventHandler(patterns="*", ignore_patterns=[""], ignore_directories=False, case_sensitive=True)
+    event_handler = PatternMatchingEventHandler(
+        patterns="*", 
+        ignore_patterns=[""], 
+        ignore_directories=False, 
+        case_sensitive=True
+    )
     event_handler.on_any_event = on_any_event
     observer = Observer()
     observer.schedule(event_handler, PATH, recursive=True)
