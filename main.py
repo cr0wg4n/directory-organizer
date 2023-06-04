@@ -50,18 +50,6 @@ def get_match_extension(base_path, extension , structure):
     return res
 
 def get_file_name(path_file):
-    i=len(path_file)-1
-    extension = ""
-    while i>=0:
-        if path_file[i]=="\\" or path_file[i]=="/":
-            break
-        else:
-            extension = extension + path_file[i]
-            i=i-1
-    return ''.join(reversed(extension))
-
-
-def get_file_name2(path_file):
     return path.basename(path_file)
 
 def get_file_path(path_file):
@@ -122,7 +110,6 @@ def remove_duplicates(collection):
 def move_file(file_path, structure, exception_directories):
     if is_normal_directory(file_path, structure) and not is_in_exception_directories(exception_directories, file_path):
         file_name = get_file_name(file_path)
-        print('flag', file_path, file_name, get_file_name2(file_path))
         extension = get_file_extension(file_path)
         dest_path = get_match_extension(base_path=PATH, extension=extension, structure=structure)
         try:
