@@ -9,7 +9,8 @@ from datetime import datetime
 from config import LISTEN_PATH, BASE_STRUCTURE
 from pathlib import Path
 
-PATH = LISTEN_PATH
+PATH = path.join(LISTEN_PATH, '')
+print("Selected path: ", PATH)
 
 DIRECTORIES_WITH_EXCEPTION = []
 
@@ -51,7 +52,7 @@ def build_structure(base_path, structure):
 
 def is_normal_directory(base_path, structure):
     for key in structure.keys():
-        if ("/"+key) in base_path:
+        if ("/"+key) in base_path or ("\\\\"+key) in base_path:
             return False
     return True
 
