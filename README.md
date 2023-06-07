@@ -1,5 +1,5 @@
 # Directory Organizer
-This script let you to organize your "Download" directory or any other directory that you want to organize.
+This script let you to organize your "Download" directory or any other directory.
 
 ![demo](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_gif.gif)
 ![demo2](https://github.com/cr0wg4n/directory-organizer/blob/master/img/demo_pdfs.gif)
